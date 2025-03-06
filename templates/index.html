@@ -82,7 +82,7 @@
             let link = document.getElementById("productLink").value;
             loader.style.display = "block";
             try{
-            let response = await fetch('/generate_reviews', {
+            let response = await fetch('https://flipkart-reviews-analysis.onrender.com/generate_reviews', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'  // Ensure JSON is specified
