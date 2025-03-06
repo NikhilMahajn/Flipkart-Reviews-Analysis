@@ -3,6 +3,6 @@ flask
 requests
 nltk
 scipy
-pickle
+pickle5
 json
 gunicorn
