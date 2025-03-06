@@ -3,5 +3,4 @@ flask
 requests
 nltk
 scipy
-pickle5
 gunicorn
