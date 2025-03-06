@@ -1,4 +1,5 @@
 ﻿beautifulsoup4
+pandas
 flask 
 requests
 nltk
