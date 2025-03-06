@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flipkart Reviews Sentiment Analysis</title>
+    <style>
+        /* Loader Styles */
+        #loader {
+            display: none;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3498db;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1 class="mt-5">Flipkart Reviews Sentiment Analysis</h1>
+        <form id="reviewForm ">
+            <div class="form-group">
+                <label for="productLink">Flipkart Product Link</label>
+                <input type="url" class="form-control" id="productLink" name="productLink" placeholder="Enter Flipkart product link" required>
+            </div>
+            <button type="button" onclick = "fetchReview()" class="btn btn-primary">Generate Reviews</button>
+        </form>
+    </div>
+
+    <div class="container text-center">
+        <div id="loader">Wait</div>
+    </div>
+
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card text-white bg-success mb-3">
+                    <div class="card-header">Good Reviews</div>
+                    <div class="card-body">
+                        <h5 class="card-title" id="goodReviewPercentage">0%</h5>
+                        <p class="card-text">Percentage of positive reviews.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card text-white bg-danger mb-3">
+                    <div class="card-header">Bad Reviews</div>
+                    <div class="card-body">
+                        <h5 class="card-title" id="badReviewPercentage">0%</h5>
+                        <p class="card-text">Percentage of negative reviews.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container mt-5">
+        <h2>Reviews</h2>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Review</th>
+                    <th>Summary</th>
+                    <th>Sentiment</th>
+                </tr>
+            </thead>
+            <tbody id="reviewTable"></tbody>
+        </table>
+    </div>
+
+    <script>
+        async function fetchReview() {
+            let link = document.getElementById("productLink").value;
+            loader.style.display = "block";
+            try{
+            let response = await fetch('/generate_reviews', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'  // Ensure JSON is specified
+                },
+                body: JSON.stringify({ 'productLink': link })  // Convert object to JSON
+            });
+            if (response.ok) {
+                let data = await response.json();
+                document.getElementById("goodReviewPercentage").innerText = data.positive_percentage + "%";
+                document.getElementById("badReviewPercentage").innerText = data.negative_percentage + "%";
+                showData(data);
+            } else {
+                console.error('Error:', response.statusText);
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
+        finally{
+            loader.style.display = "none";
+                        
+        }
+
+        }
+    
+
+        function showData(data) {
+            let table = document.getElementById("reviewTable");
+            table.innerHTML = "";
+            for (let i = 0; i < data.reviews.length; i++) {
+                let row = table.insertRow();
+                let cell1 = row.insertCell(0);
+                let cell2 = row.insertCell(1);
+                let cell3 = row.insertCell(2);
+                cell1.innerHTML = data.reviews[i];
+                cell2.innerHTML = data.summary[i];
+                cell3.innerHTML = data.predictions[i] == 1 ? "Positive" : "Negative";
+                cell3.style.color = data.predictions[i] == 1 ? "green" : "red";
+            }
+        }
+    </script>
+</body>
+</html>
