@@ -16,7 +16,7 @@ nltk.download('stopwords')
 stpwords = set(stopwords.words('english'))  # Convert stopwords list to a set for fast lookup
 stem = PorterStemmer()
 
-with open('models\sentiment_model2.pkl','rb') as f:
+with open('models/sentiment_model2.pkl','rb') as f:
 	model, vectorizer_review, vectorizer_summary = pickle.load(f)
 
 app = Flask(__name__)
