@@ -5,4 +5,4 @@ requests
 nltk
 scipy
 gunicorn
-scikit-learn
+sklearn
