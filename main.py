@@ -25,7 +25,7 @@ app = Flask(__name__)
 def index():
 	return render_template('index.html')
 
-@app.route('/generate_reviews',methods=['POST'])
+@app.route('https://flipkart-reviews-analysis.onrender.com/generate_reviews',methods=['POST'])
 def generate_reviews():
 	try:
 		print(request.content_type)
