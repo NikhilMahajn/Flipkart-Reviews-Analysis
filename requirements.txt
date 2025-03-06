@@ -4,5 +4,4 @@ requests
 nltk
 scipy
 pickle5
-json
 gunicorn
