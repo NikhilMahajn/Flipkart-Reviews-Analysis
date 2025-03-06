@@ -7,12 +7,12 @@ import pandas as pd
 from flask import Flask,render_template,request,jsonify
 import pickle
 import nltk
+nltk.download('stopwords')
 from nltk.corpus import stopwords
 from nltk.stem import PorterStemmer
 from nltk.tokenize import word_tokenize
 import re
 from scipy.sparse import hstack
-nltk.download('stopwords')
 stpwords = set(stopwords.words('english'))  # Convert stopwords list to a set for fast lookup
 stem = PorterStemmer()
 
